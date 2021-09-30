@@ -13,7 +13,7 @@ export default function App(){
           </View>
           <View style={styles.horizontal}>
             <Image
-              style={{width: '50%', height: '100%'}}
+              style={{width: 200, height: '100}}
               source={{uri: 'https://cdn.britannica.com/15/6215-004-B8508AEB/Flag-Slovenia.jpg'}}
             />
           </View>
