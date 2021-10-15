@@ -8,6 +8,7 @@ import USA from './USA';
 import Canada from './Canada';
 import NewZealand from './NewZealand';
 import Bosnia from './Bosnia';
+import LikesPage from './Likes'
 
 function HomeNav({ navigation }) {
   return (
@@ -33,6 +34,11 @@ function HomeNav({ navigation }) {
         title="Bosnia and Herzegovina"
         onPress={() => navigation.navigate('Bosnia')}
       />
+    </View>
+    <Button
+        color='red' title='Go to Likes Page'
+        onPress = {() => navigation.navigate('Likes Page')}
+     />  
     </View>
     </ScrollView>
   );
@@ -68,6 +74,12 @@ function BosniaScreen({ navigation }) {
   );
 }
 
+function LikeScreen({navigation}){
+  return(
+    <LikesPage/>
+  );
+}
+
 const Tab = createNativeStackNavigator();
 
 export default function App(){
@@ -93,6 +105,7 @@ export default function App(){
                     <Tab.Screen name="Canada" component={CanadaScreen} />
                     <Tab.Screen name="New Zealand" component={NewZealandScreen} />
                     <Tab.Screen name="Bosnia" component={BosniaScreen} />
+                    <Tab.Screen name="Likes Page" component={LikeScreen} />
                   </Tab.Navigator>
                 </NavigationContainer>
             </View>
