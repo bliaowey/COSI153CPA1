@@ -3,24 +3,25 @@ import { Text, View, StyleSheet, TextInput, Button, SafeAreaView, ScrollView, Fl
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LikeButton = () => {
-    const [likedAnthem, setLikedAnthem] = useState([]);
+    const [likedAnthem, setLikedAnthem] = useState("");
+    const [anthemList, setAnthemList] = useState([]);
     useEffect(() => {getData()}, []);
 
 
     const getData = async () => {
         try {
           // the '@profile_info' can be any string
-          const jsonValue = await AsyncStorage.getItem('@pomodoros')
+          const jsonValue = await AsyncStorage.getItem('@anthemList')
           let data = null
           if (jsonValue!=null) {
             data = JSON.parse(jsonValue)
-            setLikedAnthem(data)
+            setAnthemList(data)
             console.log('just set Info, Name and Email')
           } else {
             console.log('just read a null value from Storage')
             // this happens the first time the app is loaded
             // as there is nothing in storage...
-            setLikedAnthem([])
+            setAnthemList([])
           }
         } catch(e) {
           console.log("error in getData ")
@@ -34,7 +35,7 @@ const LikeButton = () => {
   const storeData = async (value) => {
         try {
           const jsonValue = JSON.stringify(value)
-          await AsyncStorage.setItem('@likedAnthem', jsonValue)
+          await AsyncStorage.setItem('@anthemList', jsonValue)
           console.log('just stored '+jsonValue)
         } catch (e) {
           console.log("error in storeData ")
@@ -57,7 +58,7 @@ const LikeButton = () => {
   const renderAnthems = ({item}) => {
     return (
       <View style={styles.pomodoro}>
-           <Text>{item}</Text>
+           <Text>{item.anthem}</Text>
       </View>
     )
   }
@@ -89,8 +90,10 @@ const LikeButton = () => {
                title={"Add"}
                color="blue"
                onPress = {() => {
+                 const newList = anthemList.append({likedAnthem})
+                 setAnthemList({newList})
+                 storeData(anthemList)
                  setLikedAnthem("")
-                 storeData(likedAnthem)
                }}
                />
         <Button
@@ -98,6 +101,7 @@ const LikeButton = () => {
                 color="red"
                 onPress = {() => {
                   clearAll()
+                  setAnthemList([]);
                 }}
                 />
 
@@ -111,11 +115,13 @@ const LikeButton = () => {
          </Text>
       </View>
 
+
       <FlatList
-        data={likedAnthem}
+        data={anthemList}
         renderItem={renderAnthems}
-        keyExtractor={item => item.dateTime}
+        keyExtractor={likedAnthem}
       />
+
     </View>
 
   );
